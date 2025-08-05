@@ -1,0 +1,33 @@
+{
+  "name": "ly-application",
+  "version": "1.0.0",
+  "description": "This repository serves as my application for QA Engineer / Private Cloud position at Line Yahoo",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "mocha -r ts-node/register src/**/*.ts tests/**/*.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlbrightQA/ly-application.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AlbrightQA/ly-application/issues"
+  },
+  "homepage": "https://github.com/AlbrightQA/ly-application#readme",
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "mocha": "^11.7.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "@types/selenium-webdriver": "^4.1.28",
+    "selenium-webdriver": "^4.34.0"
+  }
+}
