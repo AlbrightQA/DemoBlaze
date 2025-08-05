@@ -7,7 +7,9 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "mocha -r ts-node/register src/**/*.ts tests/**/*.ts"
+    "dev": "node -e \"require('fs').copyFileSync('.env.example', '.env')\"",
+    "test": "mocha -r ts-node/register tests/**/*.ts",
+    "e2e": "mocha -r ts-node/register -r ./tests/global.e2e.setup.ts \"tests/**/e2e/**/*.ts\""
   },
   "repository": {
     "type": "git",
@@ -28,6 +30,7 @@
   },
   "dependencies": {
     "@types/selenium-webdriver": "^4.1.28",
+    "dotenv": "^17.2.1",
     "selenium-webdriver": "^4.34.0"
   }
 }
