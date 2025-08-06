@@ -1,5 +1,5 @@
 import { Builder, WebDriver } from 'selenium-webdriver';
-import { LoginPage } from '../pages/LoginPage';
+import { LoginPage } from '@/pages/LoginPage.js';
 import 'dotenv/config';
 
 export async function globalSetup(): Promise<{ driver: WebDriver, loginPage: LoginPage }> {
@@ -12,10 +12,13 @@ export async function globalSetup(): Promise<{ driver: WebDriver, loginPage: Log
   }
 
   const driver = await new Builder().forBrowser('chrome').build();
-  await driver.get(baseUrl);
+  await driver.get(`${baseUrl}/index.html`);
 
   const loginPage = new LoginPage(driver);
   await loginPage.login(username, password);
+  
+  // Wait a moment for the login API call to complete
+  await new Promise(resolve => setTimeout(resolve, 2000));
 
   return { driver, loginPage };
 }

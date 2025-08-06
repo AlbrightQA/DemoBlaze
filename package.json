@@ -3,13 +3,17 @@
   "version": "1.0.0",
   "description": "This repository serves as my application for QA Engineer / Private Cloud position at Line Yahoo",
   "main": "index.js",
+  "type": "module",
   "directories": {
     "test": "tests"
   },
   "scripts": {
     "dev": "node -e \"require('fs').copyFileSync('.env.example', '.env')\"",
-    "test": "mocha -r ts-node/register tests/**/*.ts",
-    "e2e": "mocha -r ts-node/register -r ./tests/global.e2e.setup.ts \"tests/**/e2e/**/*.ts\""
+    "test": "mocha -r ts-node/register 'tests/**/*.ts'",
+    "clean": "if exist dist rmdir /s /q dist",
+    "build": "tsc && tsc-alias",
+    "e2e": "npm run clean && npm run build && mocha --file ./dist/tests/global.e2e.setup.js dist/tests/**/e2e/**/*.js",
+    "all-tests": "npm run test && npm run e2e"
   },
   "repository": {
     "type": "git",
@@ -26,6 +30,7 @@
     "@types/mocha": "^10.0.10",
     "mocha": "^11.7.1",
     "ts-node": "^10.9.2",
+    "tsc-alias": "^1.8.16",
     "typescript": "^5.9.2"
   },
   "dependencies": {

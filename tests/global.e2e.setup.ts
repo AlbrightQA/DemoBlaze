@@ -1,4 +1,5 @@
-import { globalSetup } from './globalSetup';
+import { before, after } from 'mocha';
+import { globalSetup } from './globalSetup.js';
 
 before(async function () {
   this.timeout(30000);

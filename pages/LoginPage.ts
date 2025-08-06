@@ -1,4 +1,5 @@
-import { By, WebDriver, until, Locator } from 'selenium-webdriver';
+import { By, WebDriver, until } from 'selenium-webdriver';
+import type { Locator } from 'selenium-webdriver';
 
 export class LoginPage {
   private driver: WebDriver;
@@ -23,17 +24,30 @@ export class LoginPage {
   }
 
   async enterUsername(username: string) {
-    await this.driver.findElement(this.usernameField).clear();
-    await this.driver.findElement(this.usernameField).sendKeys(username);
+    const usernameElement = await this.driver.wait(until.elementLocated(this.usernameField));
+    await this.driver.wait(until.elementIsVisible(usernameElement));
+    await this.driver.wait(until.elementIsEnabled(usernameElement));
+    await usernameElement.clear();
+    await usernameElement.click();
+    await new Promise(resolve => setTimeout(resolve, 500)); // Small delay
+    await usernameElement.sendKeys(username);
   }
 
   async enterPassword(password: string) {
-    await this.driver.findElement(this.passwordField).clear();
-    await this.driver.findElement(this.passwordField).sendKeys(password);
+    const passwordElement = await this.driver.wait(until.elementLocated(this.passwordField));
+    await this.driver.wait(until.elementIsVisible(passwordElement));
+    await this.driver.wait(until.elementIsEnabled(passwordElement));
+    await passwordElement.clear();
+    await passwordElement.click();
+    await new Promise(resolve => setTimeout(resolve, 500)); // Small delay
+    await passwordElement.sendKeys(password);
   }
 
   async submit() {
-    await this.driver.findElement(this.submitButton).click();
+    const submitElement = await this.driver.wait(until.elementLocated(this.submitButton));
+    await this.driver.wait(until.elementIsVisible(submitElement));
+    await this.driver.wait(until.elementIsEnabled(submitElement));
+    await submitElement.click();
   }
 
   async closeModal() {
@@ -45,6 +59,5 @@ export class LoginPage {
     await this.enterUsername(username);
     await this.enterPassword(password);
     await this.submit();
-    // Optionally, wait for modal to close or for a login success indicator
   }
 }
