@@ -43,18 +43,8 @@ When hired, I plan to focus on the following key areas to enhance the quality as
    This creates `.env` with default values from `.env.example`.
 
 3. **Add your credentials:**
-   Edit `.env` with your DemoBlaze credentials (see [Setup](#setup) below).
+   Edit `.env` with your DemoBlaze credentials. Leave DEMO_BLAZE_USER_COOKIE blank.
 
-### Retrieving the User Cookie
-
-To get your `DEMO_BLAZE_USER_COOKIE` value:
-
-1. **Open browser Developer Tools** (F12) and go to Network tab
-2. **Log in** with your credentials
-3. **Find the POST request to `/check`** in Network tab
-4. **Copy the cookie value** from the `token` in request payload
-
-**Note:** The cookie is required for API calls to work properly.
 
 ## Running Tests
 
@@ -75,7 +65,7 @@ npm run smoke   # Cleans previously compiled scripts, recompiles, and runs tests
 
 ### Specific Test File
 ```sh
-npm run e2e -- --grep "test name"
+npm run e2e -- --grep "test name" # Not file name. It will match partial text of your 'describe' or 'it' statements
 ```
 
 ## Project Structure
@@ -164,8 +154,7 @@ const uuid = generateUUID(); // Generates RFC 4122 v4 UUID
 ### Common Issues
 1. **Environment Variables**: Ensure all required variables are set
 2. **Chrome Driver**: E2E tests require Chrome browser
-3. **API Connectivity**: Verify DemoBlaze API is accessible
-4. **Compilation**: Run `npm run build` if TypeScript compilation fails
+3. **Compilation**: Run `npm run build` if TypeScript compilation fails
 
 ### Debug Mode
 Add `--inspect` flag for detailed logging:

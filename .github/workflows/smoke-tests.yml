@@ -28,7 +28,6 @@ jobs:
     - name: Run smoke tests
       run: npm run smoke
       env:
-        DEMO_BLAZE_USER_COOKIE: ${{ secrets.DEMO_BLAZE_USER_COOKIE }}
         DEMO_BLAZE_USER_NAME: ${{ secrets.DEMO_BLAZE_USER_NAME }}
         DEMO_BLAZE_PASSWORD: ${{ secrets.DEMO_BLAZE_PASSWORD }}
         DEMO_BLAZE_API_BASE_URL: ${{ vars.DEMO_BLAZE_API_BASE_URL }}

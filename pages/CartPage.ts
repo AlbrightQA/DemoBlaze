@@ -74,4 +74,22 @@ export class CartPage {
     const items = await this.getAllCartItems();
     return items.length;
   }
+
+  // Delete all items in cart
+  async deleteAllCartItems(): Promise<void> {
+    while (true) {
+      const items = await this.getAllCartItems();
+      if (items.length === 0) {
+        console.log('Cart is now empty');
+        break;
+      }
+      
+      // Delete the first item
+      const deleteButton = await items[0].findElement(this.deleteButton);
+      await deleteButton.click();
+      
+      // Wait for the page to refresh
+      await this.driver.sleep(2000);
+    }
+  }
 } 

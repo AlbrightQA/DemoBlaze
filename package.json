@@ -11,8 +11,8 @@
     "dev": "node -e \"require('fs').copyFileSync('.env.example', '.env')\"",
     "clean": "rimraf dist",
     "build": "tsc && tsc-alias",
-    "e2e": "npm run clean && npm run build && mocha --file ./dist/tests/global.e2e.setup.js dist/tests/**/e2e/**/*.js",
-    "smoke": "npm run clean && npm run build && mocha dist/tests/smoke/**/*.js",
+    "e2e": "npm run clean && npm run build && mocha --file ./dist/tests/globalSetup.js dist/tests/**/e2e/**/*.js",
+    "smoke": "npm run clean && npm run build && mocha --file ./dist/tests/globalSetup.js dist/tests/smoke/**/*.js",
     "all-tests": "npm run smoke && npm run e2e"
   },
   "repository": {
@@ -28,6 +28,7 @@
   "homepage": "https://github.com/AlbrightQA/ly-application#readme",
   "devDependencies": {
     "@types/mocha": "^10.0.10",
+    "@types/node": "^24.2.0",
     "mocha": "^11.7.1",
     "rimraf": "^6.0.1",
     "ts-node": "^10.9.2",

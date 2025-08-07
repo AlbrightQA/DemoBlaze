@@ -4,6 +4,12 @@ import { CartPage } from '@/pages/CartPage.js';
 import { WebDriver, until, By } from 'selenium-webdriver';
 import { strict as assert } from 'assert';
 
+// Interface for tracking products
+interface Product {
+  name: string;
+  category: string;
+}
+
 declare const driver: WebDriver;
 
 describe('Storefront E2E: Add Monitor to Cart', function () {
@@ -15,17 +21,27 @@ describe('Storefront E2E: Add Monitor to Cart', function () {
     cartPage = new CartPage(driver);
   });
 
-  it("Should navigate the storefront, add 3 different products to cart via UI, and then delete one", async function () {
+  it("Should navigate the storefront, add 3 products to the cart, and delete them", async function () {
     this.timeout(30000);
 
-    const products = [
+    const products: Product[] = [
       { name: 'ASUS Full HD', category: 'monitors' },
       { name: 'Nexus 6', category: 'phones' },
       { name: 'MacBook Pro', category: 'laptops' }
     ];
 
+    // Navigate to the cart to clear it out if necessary
+    await driver.get(`${process.env.DEMO_BLAZE_BASE_URL}/cart.html`);
+    
+    // Wait for the page to load
+    await driver.sleep(2000);
+
+    // Delete all existing items in cart using CartPage utility
+    await cartPage.deleteAllCartItems();
+
     // Add each product to cart
-    for (const product of products) {
+    for (let i = 0; i < products.length; i++) {
+      const product = products[i];
       console.log(`Adding ${product.name} to cart...`);
       
       // Navigate to home page
@@ -55,13 +71,14 @@ describe('Storefront E2E: Add Monitor to Cart', function () {
       console.log(`Added ${product.name} to cart`);
     }
 
-    // Navigate to cart to verify all products
+    // Navigate to cart to verify all products we added
+    console.log('Navigating to cart to verify products...');
     await driver.get(`${process.env.DEMO_BLAZE_BASE_URL}/cart.html`);
     
     // Wait for cart to load
     await driver.wait(until.elementLocated(By.css('#tbodyid tr')), 3000);
     
-    // Verify all products are in cart
+    // Verify all products we added are in the cart
     for (const product of products) {
       const productElement = await driver.findElement(By.xpath(`//td[contains(text(), '${product.name}')]`));
       const productText = await productElement.getText();
@@ -69,23 +86,31 @@ describe('Storefront E2E: Add Monitor to Cart', function () {
       console.log(`Verified ${product.name} is in cart`);
     }
 
-    // Delete one product from cart (ASUS Full HD)
-    const productToDelete = 'ASUS Full HD';
-    await cartPage.deleteCartItem(productToDelete);
+    // Delete all products we added
+    console.log('Deleting all products we added...');
     
-    // Wait for deletion by checking that product is no longer present
-    const deletedProductElement = await driver.findElement(By.xpath(`//td[contains(text(), '${productToDelete}')]`));
-    await driver.wait(until.stalenessOf(deletedProductElement), 5000);
-    
-    // Verify product is removed
-    try {
-      await driver.findElement(By.xpath(`//td[contains(text(), '${productToDelete}')]`));
-      assert.fail(`Product "${productToDelete}" still exists in cart after deletion`);
-    } catch (error: any) {
-      if (error.name !== 'NoSuchElementError') {
-        throw error;
-      }
-      console.log(`Successfully deleted ${productToDelete} from cart`);
+    for (const product of products) {
+      console.log(`Deleting ${product.name} from cart...`);
+      await cartPage.deleteCartItem(product.name);
+      console.log(`Successfully deleted ${product.name} from cart`);
     }
+
+    // Wait for the page to load and then verify all products are deleted
+    await driver.sleep(2000);
+    
+    // Verify all products we added are no longer in the cart
+    for (const product of products) {
+      try {
+        await driver.findElement(By.xpath(`//td[contains(text(), '${product.name}')]`));
+        assert.fail(`Product "${product.name}" still exists in cart after deletion`);
+      } catch (error: any) {
+        if (error.name !== 'NoSuchElementError') {
+          throw error;
+        }
+        console.log(`Verified ${product.name} is no longer in cart`);
+      }
+    }
+    
+    console.log('All products deleted via UI');
   });
 });
