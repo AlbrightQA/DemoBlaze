@@ -9,11 +9,11 @@
   },
   "scripts": {
     "dev": "node -e \"require('fs').copyFileSync('.env.example', '.env')\"",
-    "test": "mocha -r ts-node/register 'tests/**/*.ts'",
     "clean": "if exist dist rmdir /s /q dist",
     "build": "tsc && tsc-alias",
     "e2e": "npm run clean && npm run build && mocha --file ./dist/tests/global.e2e.setup.js dist/tests/**/e2e/**/*.js",
-    "all-tests": "npm run test && npm run e2e"
+    "smoke": "npm run clean && npm run build && mocha dist/tests/smoke/**/*.js",
+    "all-tests": "npm run smoke && npm run e2e"
   },
   "repository": {
     "type": "git",
