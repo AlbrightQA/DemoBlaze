@@ -32,7 +32,7 @@ When hired, I plan to focus on the following key areas to enhance the quality as
 1. **Clone and install:**
 
    ```sh
-   git clone https://github.com/AlbrightQA/line-yahoo-application.git
+   git clone https://github.com/AlbrightQA/ly-application.git
    cd ly-application
    npm install
    ```
