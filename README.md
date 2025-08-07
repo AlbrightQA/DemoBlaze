@@ -172,4 +172,22 @@ Add `--inspect` flag for detailed logging:
 npm run e2e -- --inspect
 ```
 
+## CI/CD Workflows
+
+### GitHub Actions
+
+The repository includes two separate GitHub workflows:
+
+#### E2E Tests Workflow (`.github/workflows/e2e-tests.yml`)
+- **Triggers**: Push to main/develop, pull requests, manual dispatch
+- **Purpose**: Full browser automation testing
+- **Environment**: Ubuntu with Chrome browser
+- **Artifacts**: Test results and screenshots (7-day retention)
+
+#### Smoke Tests Workflow (`.github/workflows/smoke-tests.yml`)
+- **Triggers**: Push to main/develop, pull requests, manual dispatch
+- **Purpose**: API-only testing (faster execution)
+- **Environment**: Ubuntu (no browser required)
+- **Artifacts**: Test results (7-day retention)
+
 ---
