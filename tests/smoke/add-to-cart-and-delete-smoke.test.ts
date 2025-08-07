@@ -1,4 +1,4 @@
-import { ApiClient, generateUUID } from '../../utils/index.js';
+﻿import { ApiClient, generateUUID } from '../../utils/index.js';
 import 'dotenv/config';
 import { strict as assert } from 'assert';
 
@@ -27,7 +27,7 @@ describe('API Client Tests', function() {
     // Verify no error message in response
     assert.strictEqual(result.errorMessage, undefined, `API returned error: ${result.errorMessage}`);
     
-    console.log('✅ Add to cart smoke test passed: API call completed successfully');
+    console.log('Add to cart smoke test passed: API call completed successfully');
   });
 
   it('Should delete product from cart via API', async function() {
@@ -39,6 +39,6 @@ describe('API Client Tests', function() {
     // Verify no error message in response
     assert.strictEqual(result.errorMessage, undefined, `API returned error: ${result.errorMessage}`);
     
-    console.log('✅ Delete from cart smoke test passed: API call completed successfully');
+    console.log('Delete from cart smoke test passed: API call completed successfully');
   });
 });

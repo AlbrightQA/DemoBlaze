@@ -1,4 +1,4 @@
-import { By, WebDriver, Locator } from 'selenium-webdriver';
+﻿import { By, WebDriver, Locator } from 'selenium-webdriver';
 
 export class NavigationBar {
   private driver: WebDriver;

@@ -1,4 +1,4 @@
-import { ApiClient, generateUUID, calculateCartTotal, deleteAllCartItems, addMultipleProductsToCart, debugPageState, debugElementState, getBrowserSession } from '../../utils/index.js';
+﻿import { ApiClient, generateUUID, calculateCartTotal, deleteAllCartItems, addMultipleProductsToCart, debugPageState, debugElementState, getBrowserSession } from '../../utils/index.js';
 import { until, By } from 'selenium-webdriver';
 import 'dotenv/config';
 import { strict as assert } from 'assert';
@@ -35,7 +35,7 @@ describe('Cart Total Verification E2E Tests', function() {
     
     const addResults = await addMultipleProductsToCart(apiClient, productIds, sessionInfo.tokenCookie);
     
-    console.log('✅ All products added to cart successfully!');
+    console.log('All products added to cart successfully!');
     
     // Navigate to cart page to verify the products
     const baseUrl = process.env.DEMO_BLAZE_BASE_URL;
@@ -46,7 +46,7 @@ describe('Cart Total Verification E2E Tests', function() {
     try {
       await driver.wait(until.elementLocated(By.css('#tbodyid tr')), 15000);
     } catch (error) {
-      console.log('❌ Cart items not found. Taking debug screenshot...');
+      console.log('Cart items not found. Taking debug screenshot...');
       
       // Debug the page state
       await debugPageState(driver, 'cart-total-verification', error as Error);
@@ -65,12 +65,12 @@ describe('Cart Total Verification E2E Tests', function() {
     // Verify cart total calculation is accurate
     assert.strictEqual(cartResult.isMatch, true, `Cart total mismatch! Calculated: ${cartResult.calculatedTotal}, Displayed: ${cartResult.displayedTotal}`);
     
-    console.log('✅ Cart total verification passed!');
+    console.log('Cart total verification passed!');
     
     // Cleanup: Delete all items from cart
     const uuidsToDelete = addResults.map(result => result.uuid);
     await deleteAllCartItems(apiClient, uuidsToDelete);
     
-    console.log(`✅ All items successfully deleted during cleanup`);
+    console.log(`All items successfully deleted during cleanup`);
   });
 });

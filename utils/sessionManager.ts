@@ -1,4 +1,4 @@
-import { WebDriver } from 'selenium-webdriver';
+﻿import { WebDriver } from 'selenium-webdriver';
 
 export interface SessionInfo {
   tokenCookie: string;

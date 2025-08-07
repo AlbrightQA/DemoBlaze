@@ -1,4 +1,4 @@
-export interface TestConfig {
+﻿export interface TestConfig {
   browser: {
     headless: boolean;
     userDataDir: string;

@@ -1,4 +1,4 @@
-import { ApiClient, generateUUID } from './index.js';
+﻿import { ApiClient, generateUUID } from './index.js';
 
 export interface AddToCartResult {
   productId: number;
@@ -23,7 +23,7 @@ export async function addMultipleProductsToCart(apiClient: ApiClient, productIds
           errorMessage: addResult.errorMessage
         });
       } else {
-        console.log(`✅ Successfully added product ${productId} with UUID ${uuid}`);
+        console.log(`Successfully added product ${productId} with UUID ${uuid}`);
         results.push({
           productId,
           uuid,
@@ -31,7 +31,7 @@ export async function addMultipleProductsToCart(apiClient: ApiClient, productIds
         });
       }
     } catch (error) {
-      console.log(`❌ Error adding product ${productId}:`, error instanceof Error ? error.message : String(error));
+      console.log(`Error adding product ${productId}:`, error instanceof Error ? error.message : String(error));
       results.push({
         productId,
         uuid: '', // No UUID generated due to error

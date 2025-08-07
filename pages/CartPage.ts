@@ -1,4 +1,4 @@
-import { By, WebDriver, Locator, WebElement } from 'selenium-webdriver';
+﻿import { By, WebDriver, Locator, WebElement } from 'selenium-webdriver';
 
 export class CartPage {
   private driver: WebDriver;

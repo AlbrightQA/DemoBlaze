@@ -1,4 +1,4 @@
-import { ApiClient } from './apiClient.js';
+﻿import { ApiClient } from './apiClient.js';
 
 export interface DeleteResult {
   uuid: string;
@@ -20,14 +20,14 @@ export async function deleteAllCartItems(apiClient: ApiClient, uuids: string[]):
           errorMessage: deleteResult.errorMessage
         });
       } else {
-        console.log(`✅ Successfully deleted item with UUID ${uuid}`);
+        console.log(`Successfully deleted item with UUID ${uuid}`);
         results.push({
           uuid,
           success: true
         });
       }
     } catch (error) {
-      console.log(`❌ Error deleting item with UUID ${uuid}:`, error instanceof Error ? error.message : String(error));
+      console.log(`Error deleting item with UUID ${uuid}:`, error instanceof Error ? error.message : String(error));
       results.push({
         uuid,
         success: false,

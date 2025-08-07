@@ -1,4 +1,4 @@
-import { WebDriver, By } from 'selenium-webdriver';
+﻿import { WebDriver, By } from 'selenium-webdriver';
 import fs from 'fs';
 import path from 'path';
 

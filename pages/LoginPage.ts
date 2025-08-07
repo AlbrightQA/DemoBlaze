@@ -1,4 +1,4 @@
-import { By, WebDriver, until } from 'selenium-webdriver';
+﻿import { By, WebDriver, until } from 'selenium-webdriver';
 import type { Locator } from 'selenium-webdriver';
 
 export class LoginPage {

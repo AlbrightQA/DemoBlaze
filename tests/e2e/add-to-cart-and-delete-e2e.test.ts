@@ -1,4 +1,4 @@
-import { StorefrontPage } from '@/pages/StorefrontPage.js';
+﻿import { StorefrontPage } from '@/pages/StorefrontPage.js';
 import { ProductPage } from '@/pages/ProductPage.js';
 import { CartPage } from '@/pages/CartPage.js';
 import { WebDriver, until, By } from 'selenium-webdriver';
@@ -52,7 +52,7 @@ describe('Storefront E2E: Add Monitor to Cart', function () {
       // Add to cart
       await new ProductPage(driver).addToCart();
       
-      console.log(`✅ Added ${product.name} to cart`);
+      console.log(`Added ${product.name} to cart`);
     }
 
     // Navigate to cart to verify all products
@@ -66,7 +66,7 @@ describe('Storefront E2E: Add Monitor to Cart', function () {
       const productElement = await driver.findElement(By.xpath(`//td[contains(text(), '${product.name}')]`));
       const productText = await productElement.getText();
       assert.strictEqual(productText.includes(product.name), true, `Expected to find "${product.name}" in cart`);
-      console.log(`✅ Verified ${product.name} is in cart`);
+      console.log(`Verified ${product.name} is in cart`);
     }
 
     // Delete one product from cart (ASUS Full HD)
@@ -85,7 +85,7 @@ describe('Storefront E2E: Add Monitor to Cart', function () {
       if (error.name !== 'NoSuchElementError') {
         throw error;
       }
-      console.log(`✅ Successfully deleted ${productToDelete} from cart`);
+      console.log(`Successfully deleted ${productToDelete} from cart`);
     }
   });
 });

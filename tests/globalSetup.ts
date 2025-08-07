@@ -1,4 +1,4 @@
-import { Builder, WebDriver } from 'selenium-webdriver';
+﻿import { Builder, WebDriver } from 'selenium-webdriver';
 import { LoginPage } from '@/pages/LoginPage.js';
 import { Options } from 'selenium-webdriver/chrome.js';
 import testConfig from '../config/test.config.js';
