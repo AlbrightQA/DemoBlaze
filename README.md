@@ -39,10 +39,9 @@ A comprehensive testing framework for the DemoBlaze e-commerce application using
 To get your `DEMO_BLAZE_USER_COOKIE` value:
 
 1. **Open browser Developer Tools** (F12) and go to Network tab
-2. **Enable "Preserve log"** and navigate to https://demoblaze.com
-3. **Log in** with your credentials
-4. **Find the POST request to `/login`** in Network tab
-5. **Copy the cookie value** from the request payload
+2. **Log in** with your credentials
+3. **Find the POST request to `/check`** in Network tab
+4. **Copy the cookie value** from the `token` in request payload
 
 **Note:** The cookie is required for API calls to work properly.
 

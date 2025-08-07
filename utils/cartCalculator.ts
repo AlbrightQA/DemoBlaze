@@ -17,10 +17,7 @@ export async function calculateCartTotal(driver: WebDriver): Promise<CartTotalRe
   
   if (tableRows.length === 0) {
     console.log('Cart table is empty - products may not have been added successfully');
-    // Wait a bit longer and check again
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    const retryRows = await driver.findElements(By.css('#tbodyid tr'));
-    console.log(`After retry: Found ${retryRows.length} rows in cart table`);
+    throw new Error('No products found in cart table. API calls may have failed or products not yet loaded.');
   }
   
   // Get all price cells from the table
