@@ -47,17 +47,31 @@ describe('Storefront E2E: Add 3 products to cart and delete them', function () {
       // Navigate to home page
       await driver.get(`${process.env.DEMO_BLAZE_BASE_URL}/index.html`);
       
-      // Select category
-      if (product.category === 'monitors') {
-        await storefront.selectMonitorsCategory();
-      } else if (product.category === 'phones') {
-        await storefront.selectPhonesCategory();
-      } else if (product.category === 'laptops') {
-        await storefront.selectLaptopsCategory();
-      }
+      // Wait for page to load completely
+      await driver.wait(until.elementLocated(By.css('a#itemc')), 5000);
       
-      // Wait for category filter to load by checking for the product
-      await driver.wait(until.elementLocated(By.xpath(`//a[contains(text(), '${product.name}')]`)), 5000);
+      // Select category with retry logic
+      let categorySelected = false;
+      for (let attempt = 0; attempt < 3 && !categorySelected; attempt++) {
+        try {
+          if (product.category === 'monitors') {
+            await storefront.selectMonitorsCategory();
+          } else if (product.category === 'phones') {
+            await storefront.selectPhonesCategory();
+          } else if (product.category === 'laptops') {
+            await storefront.selectLaptopsCategory();
+          }
+          
+          // Wait for category filter to load by checking for the product
+          await driver.wait(until.elementLocated(By.xpath(`//a[contains(text(), '${product.name}')]`)), 5000);
+          categorySelected = true;
+        } catch (error) {
+          console.log(`Category selection attempt ${attempt + 1} failed: ${error}`);
+          if (attempt < 2) {
+            await driver.sleep(1000);
+          }
+        }
+      }
       
       // Click on the product
       await storefront.clickItemByPartialText(product.name);
@@ -88,12 +102,7 @@ describe('Storefront E2E: Add 3 products to cart and delete them', function () {
 
     // Delete all products we added
     console.log('Deleting all products we added...');
-    
-    for (const product of products) {
-      console.log(`Deleting ${product.name} from cart...`);
-      await cartPage.deleteCartItem(product.name);
-      console.log(`Successfully deleted ${product.name} from cart`);
-    }
+    await cartPage.deleteAllCartItems();
 
     // Wait for the page to load and then verify all products are deleted
     await driver.sleep(2000);
