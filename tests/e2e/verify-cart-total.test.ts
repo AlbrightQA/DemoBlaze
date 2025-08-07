@@ -23,6 +23,23 @@ describe('Cart Total Verification E2E Tests', function() {
       console.log(`  - ${cookie.name}: ${cookie.value}`);
     });
     
+    // Debug: Investigate what cookies we actually have
+    console.log('🔍 === COOKIE INVESTIGATION ===');
+    startCookies.forEach((cookie: any) => {
+      console.log(`Cookie: ${cookie.name} = ${cookie.value}`);
+      console.log(`  - Domain: ${cookie.domain}`);
+      console.log(`  - Path: ${cookie.path}`);
+      console.log(`  - Secure: ${cookie.secure}`);
+      console.log(`  - HttpOnly: ${cookie.httpOnly}`);
+    });
+    
+    // Get the tokenp_ cookie which seems to be the session token
+    const tokenCookie = startCookies.find((cookie: any) => cookie.name === 'tokenp_');
+    if (!tokenCookie) {
+      throw new Error('tokenp_ cookie not found in browser session');
+    }
+    console.log('🔍 Using browser tokenp_ cookie for API calls:', tokenCookie.value);
+    
     const nexus6ProductId = process.env.NEXUS_6_PRODUCT_ID;
     const macbookProductId = process.env.MACBOOK_PRO_PRODUCT_ID;
     const asusProductId = process.env.ASUS_FULL_HD_PRODUCT_ID;
@@ -46,7 +63,7 @@ describe('Cart Total Verification E2E Tests', function() {
       console.log(`  - ${cookie.name}: ${cookie.value}`);
     });
     
-    const addResults = await addMultipleProductsToCart(apiClient, productIds);
+    const addResults = await addMultipleProductsToCart(apiClient, productIds, tokenCookie.value);
     
     console.log('✅ All products added to cart successfully!');
     
@@ -69,6 +86,17 @@ describe('Cart Total Verification E2E Tests', function() {
     afterNavCookies.forEach((cookie: any) => {
       console.log(`  - ${cookie.name}: ${cookie.value}`);
     });
+    
+    // Debug: Check if we're actually logged in on the cart page
+    console.log('=== CART PAGE DEBUG ===');
+    try {
+      const welcomeElement = await driver.findElement(By.css('body'));
+      const pageText = await welcomeElement.getText();
+      console.log('Page contains "Welcome":', pageText.includes('Welcome'));
+      console.log('Page contains "Log out":', pageText.includes('Log out'));
+    } catch (error) {
+      console.log('Error checking page content:', error instanceof Error ? error.message : String(error));
+    }
     
     // Wait for cart items to actually appear in the table
     console.log('Waiting for cart items to load...');

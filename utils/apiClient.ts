@@ -39,19 +39,20 @@ export class ApiClient {
     this.cookie = process.env.DEMO_BLAZE_USER_COOKIE;
   }
 
-  async addProductToCart(productId: number, uuid: string): Promise<AddToCartResponse> {
+  async addProductToCart(productId: number, uuid: string, customCookie?: string): Promise<AddToCartResponse> {
     const url = `${this.baseUrl}/addtocart`;
     
     const requestBody: AddToCartRequest = {
       id: uuid,
-      cookie: this.cookie,
+      cookie: customCookie || this.cookie,
       prod_id: productId,
       flag: true
     };
 
     try {
-      console.log('Making API call to:', url);
-      console.log('Request body:', JSON.stringify(requestBody, null, 2));
+               console.log('Making API call to:', url);
+         console.log('Request body:', JSON.stringify(requestBody, null, 2));
+         console.log('🔍 API Debug: Using cookie value:', customCookie || this.cookie);
       
       const response = await fetch(url, {
         method: 'POST',

@@ -7,7 +7,7 @@ export interface AddToCartResult {
   errorMessage?: string;
 }
 
-export async function addMultipleProductsToCart(apiClient: ApiClient, productIds: number[]): Promise<AddToCartResult[]> {
+export async function addMultipleProductsToCart(apiClient: ApiClient, productIds: number[], customCookie?: string): Promise<AddToCartResult[]> {
   console.log(`Starting bulk add - adding ${productIds.length} products to cart...`);
   
   const results: AddToCartResult[] = [];
@@ -15,7 +15,7 @@ export async function addMultipleProductsToCart(apiClient: ApiClient, productIds
   for (const productId of productIds) {
     try {
       const uuid = generateUUID();
-      const addResult = await apiClient.addProductToCart(productId, uuid);
+      const addResult = await apiClient.addProductToCart(productId, uuid, customCookie);
       console.log(`Added product ${productId} with UUID ${uuid}:`, addResult);
       
       if (addResult.errorMessage) {
