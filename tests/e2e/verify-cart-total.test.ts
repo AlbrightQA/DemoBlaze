@@ -1,4 +1,4 @@
-import { ApiClient, generateUUID, calculateCartTotal, deleteAllCartItems, addMultipleProductsToCart } from '../../utils/index.js';
+import { ApiClient, generateUUID, calculateCartTotal, deleteAllCartItems, addMultipleProductsToCart, debugPageState, debugElementState } from '../../utils/index.js';
 import { until, By } from 'selenium-webdriver';
 import 'dotenv/config';
 import { strict as assert } from 'assert';
@@ -40,7 +40,21 @@ describe('Cart Total Verification E2E Tests', function() {
     
     // Wait for cart items to actually appear in the table
     console.log('Waiting for cart items to load...');
-    await driver.wait(until.elementLocated(By.css('#tbodyid tr')), 15000);
+    try {
+      await driver.wait(until.elementLocated(By.css('#tbodyid tr')), 15000);
+    } catch (error) {
+      console.log('❌ Cart items not found. Taking debug screenshot...');
+      
+      // Debug the page state
+      await debugPageState(driver, 'cart-total-verification', error as Error);
+      
+      // Debug specific elements
+      await debugElementState(driver, '#tbodyid', 'Cart table body');
+      await debugElementState(driver, '#tbodyid tr', 'Cart table rows');
+      await debugElementState(driver, 'body', 'Page body');
+      
+      throw error;
+    }
     
     // Calculate cart total using utility function
     const cartResult = await calculateCartTotal(driver);

@@ -49,3 +49,11 @@ jobs:
           dist/
           screenshots/
         retention-days: 7
+        
+    - name: Upload screenshots
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: e2e-screenshots
+        path: screenshots/
+        retention-days: 7
