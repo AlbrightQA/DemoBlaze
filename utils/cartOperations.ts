@@ -8,18 +8,14 @@ export interface AddToCartResult {
 }
 
 export async function addMultipleProductsToCart(apiClient: ApiClient, productIds: number[], customCookie?: string): Promise<AddToCartResult[]> {
-  console.log(`Starting bulk add - adding ${productIds.length} products to cart...`);
-  
   const results: AddToCartResult[] = [];
   
   for (const productId of productIds) {
     try {
       const uuid = generateUUID();
       const addResult = await apiClient.addProductToCart(productId, uuid, customCookie);
-      console.log(`Added product ${productId} with UUID ${uuid}:`, addResult);
       
       if (addResult.errorMessage) {
-        console.log(`Warning: Add returned error for product ${productId}:`, addResult.errorMessage);
         results.push({
           productId,
           uuid,
@@ -44,11 +40,6 @@ export async function addMultipleProductsToCart(apiClient: ApiClient, productIds
       });
     }
   }
-  
-  const successCount = results.filter(r => r.success).length;
-  const failureCount = results.filter(r => !r.success).length;
-  
-  console.log(`Bulk add completed! Successfully added: ${successCount}, Failed: ${failureCount}`);
   
   return results;
 }

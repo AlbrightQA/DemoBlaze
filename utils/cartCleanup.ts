@@ -7,17 +7,13 @@ export interface DeleteResult {
 }
 
 export async function deleteAllCartItems(apiClient: ApiClient, uuids: string[]): Promise<DeleteResult[]> {
-  console.log(`Starting cleanup - deleting ${uuids.length} cart items...`);
-  
   const results: DeleteResult[] = [];
   
   for (const uuid of uuids) {
     try {
       const deleteResult = await apiClient.deleteCartItem(uuid);
-      console.log(`Deleted item with UUID ${uuid}:`, deleteResult);
       
       if (deleteResult.errorMessage) {
-        console.log(`Warning: Delete returned error for UUID ${uuid}:`, deleteResult.errorMessage);
         results.push({
           uuid,
           success: false,
@@ -39,11 +35,6 @@ export async function deleteAllCartItems(apiClient: ApiClient, uuids: string[]):
       });
     }
   }
-  
-  const successCount = results.filter(r => r.success).length;
-  const failureCount = results.filter(r => !r.success).length;
-  
-  console.log(`🧹 Cleanup completed! Successfully deleted: ${successCount}, Failed: ${failureCount}`);
   
   return results;
 }

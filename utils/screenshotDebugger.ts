@@ -9,8 +9,6 @@ export interface DebugInfo {
 }
 
 export async function takeDebugScreenshot(driver: WebDriver, testName: string): Promise<DebugInfo> {
-  console.log('Taking debug screenshot...');
-  
   // Create screenshots directory if it doesn't exist
   const screenshotsDir = path.join(process.cwd(), 'screenshots');
   if (!fs.existsSync(screenshotsDir)) {
@@ -25,13 +23,11 @@ export async function takeDebugScreenshot(driver: WebDriver, testName: string): 
   const screenshot = await driver.takeScreenshot();
   const screenshotPath = path.join(screenshotsDir, `${safeTestName}-${timestamp}.png`);
   fs.writeFileSync(screenshotPath, screenshot, 'base64');
-  console.log(`Screenshot saved: ${screenshotPath}`);
   
   // Get page source
   const pageSource = await driver.getPageSource();
   const pageSourcePath = path.join(screenshotsDir, `${safeTestName}-${timestamp}.html`);
   fs.writeFileSync(pageSourcePath, pageSource);
-  console.log(`Page source saved: ${pageSourcePath}`);
   
   return {
     screenshotPath,
@@ -41,15 +37,12 @@ export async function takeDebugScreenshot(driver: WebDriver, testName: string): 
 }
 
 export async function debugElementState(driver: WebDriver, selector: string, description: string): Promise<void> {
-  console.log(`Debugging element: ${description} (${selector})`);
-  
   try {
     const elements = await driver.findElements(By.css(selector));
-    console.log(`Found ${elements.length} elements matching "${selector}"`);
     
     if (elements.length > 0) {
       const text = await elements[0].getText();
-      console.log(`Element text: "${text}"`);
+      console.log(`Element "${description}" text: "${text}"`);
     }
   } catch (error) {
     console.log(`Error finding element "${selector}":`, error instanceof Error ? error.message : String(error));
@@ -57,8 +50,6 @@ export async function debugElementState(driver: WebDriver, selector: string, des
 }
 
 export async function debugPageState(driver: WebDriver, testName: string, error?: Error): Promise<DebugInfo> {
-  console.log('❌ Test failed. Taking debug screenshot...');
-  
   const debugInfo = await takeDebugScreenshot(driver, testName);
   
   // Log current URL
@@ -70,7 +61,7 @@ export async function debugPageState(driver: WebDriver, testName: string, error?
   console.log(`Page title: "${pageTitle}"`);
   
   if (error) {
-    console.log(`❌ Error: ${error.message}`);
+    console.log(`Error: ${error.message}`);
   }
   
   return debugInfo;

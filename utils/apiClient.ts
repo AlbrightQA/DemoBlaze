@@ -49,10 +49,7 @@ export class ApiClient {
       flag: true
     };
 
-          try {
-        console.log('Making API call to:', url);
-        console.log('Request body:', JSON.stringify(requestBody, null, 2));
-      
+    try {
       const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -65,9 +62,6 @@ export class ApiClient {
         body: JSON.stringify(requestBody)
       });
 
-      console.log('Response status:', response.status);
-      console.log('Response headers:', response.headers);
-
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -75,12 +69,10 @@ export class ApiClient {
       // Check if response has content
       const contentLength = response.headers.get('content-length');
       if (contentLength === '0' || contentLength === null) {
-        console.log('Empty response received - API call successful');
         return { success: true, message: 'Product added to cart successfully' };
       }
 
       const data = await response.json();
-      console.log('Response data:', data);
       return data;
     } catch (error) {
       console.error('Error adding item to cart:', error);
@@ -96,9 +88,6 @@ export class ApiClient {
     };
 
     try {
-      console.log('Making delete API call to:', url);
-      console.log('Request body:', JSON.stringify(requestBody, null, 2));
-      
       const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -111,9 +100,6 @@ export class ApiClient {
         body: JSON.stringify(requestBody)
       });
 
-      console.log('Delete response status:', response.status);
-      console.log('Delete response headers:', response.headers);
-
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -121,12 +107,10 @@ export class ApiClient {
       // Check if response has content
       const contentLength = response.headers.get('content-length');
       if (contentLength === '0' || contentLength === null) {
-        console.log('Empty delete response received - API call successful');
         return { success: true, message: 'Cart item deleted successfully' };
       }
 
       const data = await response.json();
-      console.log('Delete response data:', data);
       return data;
     } catch (error) {
       console.error('Error deleting cart item:', error);

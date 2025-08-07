@@ -2,6 +2,17 @@
 
 A comprehensive testing framework for the DemoBlaze e-commerce application using TypeScript, Mocha, and Selenium WebDriver. Supports both API testing and end-to-end browser automation.
 
+The **Line Yahoo Application** project is a Playwright repository designed to test the frontend and API of the DemoBlaze application, and to demonstrate what benefits Evan Albright can bring to the team.
+
+## Intentions Moving Forward
+
+When hired, I plan to focus on the following key areas to enhance the quality assurance process:
+
+- **Work with stakeholders** to identify critical test flows and automate those first.
+- **Collaborate with development** to implement data-testid's on existing elements and all elements going forward for better test targeting.
+- **Train QA team** on how to effectively use the Selenium project to maximize its benefits.
+- **Advocate for inline testing** to ensure that tests are closely integrated with the codebase, allowing for immediate feedback on changes and reducing the likelihood of incidents.
+
 ## Features
 
 - **API Testing**: Direct API calls for cart operations
