@@ -163,6 +163,12 @@ Add `--inspect` flag for detailed logging:
 npm run e2e -- --inspect
 ```
 
+### Browser Visibility
+Tests run headless by default for faster execution. To see the browser:
+```sh
+HEADED=true npm run e2e
+```
+
 ## CI/CD Workflows
 
 ### GitHub Actions

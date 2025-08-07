@@ -19,7 +19,7 @@ export interface TestConfig {
 // Default configuration
 const defaultConfig: TestConfig = {
   browser: {
-    headless: false, // Default to visible browser for local development
+    headless: true, // Default to headless for faster execution
     userDataDir: '/tmp/chrome-user-data',
     remoteDebuggingPort: 9222,
     chromeOptions: [
@@ -51,11 +51,11 @@ const getEnvironmentOverrides = (): Partial<TestConfig> => {
     };
   }
   
-  // Custom headless setting
-  if (process.env.HEADLESS === 'true') {
+  // Custom headed setting (for debugging)
+  if (process.env.HEADED === 'true') {
     overrides.browser = {
       ...defaultConfig.browser,
-      headless: true
+      headless: false
     };
   }
   
