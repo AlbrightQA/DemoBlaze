@@ -16,48 +16,35 @@ A comprehensive testing framework for the DemoBlaze e-commerce application using
 - npm (comes with Node.js)
 - Chrome browser (for E2E tests)
 
-## Setup
+## Getting Started
 
-1. **Clone the repository:**
+1. **Clone and install:**
    ```sh
    git clone https://github.com/AlbrightQA/ly-application.git
    cd ly-application
-   ```
-
-2. **Install dependencies:**
-   ```sh
    npm install
    ```
 
-3. **Prepare environment variables:**
+2. **Setup environment:**
    ```sh
    npm run dev
    ```
-   This automatically copies `.env.example` to `.env` if it doesn't exist, and populates `.env` if it does exist.
+   This creates `.env` with default values from `.env.example`.
 
-4. **Configure your environment variables:**
-   Edit `.env` with your DemoBlaze credentials and user cookie.
+3. **Add your credentials:**
+   Edit `.env` with your DemoBlaze credentials (see [Setup](#setup) below).
 
 ### Retrieving the User Cookie
 
 To get your `DEMO_BLAZE_USER_COOKIE` value:
 
-1. **Open your browser's Developer Tools** (F12 or right-click → Inspect)
-2. **Go to the Network tab**
-3. **Enable "Preserve log"** - This keeps network requests visible when the page refreshes
-4. **Navigate to DemoBlaze** (https://demoblaze.com)
-5. **Click "Log in"** and enter your credentials
-6. **In the Network tab, find the POST request to `/login`**
-7. **Click on the login request** and look at the **Payload** tab
-8. **Copy the cookie value**
+1. **Open browser Developer Tools** (F12) and go to Network tab
+2. **Enable "Preserve log"** and navigate to https://demoblaze.com
+3. **Log in** with your credentials
+4. **Find the POST request to `/login`** in Network tab
+5. **Copy the cookie value** from the request payload
 
-**Note:** The cookie is required for API calls to work properly. Without it, the DemoBlaze API will reject your requests.
-
-### Setting Up Local `.env`
-This will 
-```sh
-npm run dev     # Setup .env
-```
+**Note:** The cookie is required for API calls to work properly.
 
 ## Running Tests
 
@@ -84,11 +71,14 @@ npm run e2e -- --grep "test name"
 ## Project Structure
 
 ```
+├── config/
+│   └── test.config.ts   # Test configuration and browser settings
 ├── tests/
 │   ├── smoke/           # API-only tests
 │   │   └── add-to-cart-and-delete-smoke.test.ts
 │   └── e2e/            # Browser automation tests
-│       └── verify-cart-total.test.ts
+│       ├── verify-cart-total.test.ts
+│       └── add-to-cart-and-delete-e2e.test.ts
 ├── utils/
 │   ├── apiClient.ts     # API client for DemoBlaze
 │   ├── cartCalculator.ts # Cart total calculation utilities
@@ -157,6 +147,7 @@ const uuid = generateUUID(); // Generates RFC 4122 v4 UUID
 - **Selenium WebDriver**: Browser automation for E2E tests
 - **Cross-platform**: Compatible with Windows, macOS, and Linux
 - **Modular Design**: Reusable utilities for common operations
+- **Centralized Configuration**: Browser and test settings managed in `config/test.config.ts`
 
 ## Troubleshooting
 
