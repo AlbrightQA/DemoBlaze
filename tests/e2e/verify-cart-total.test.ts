@@ -1,4 +1,5 @@
 import { ApiClient, generateUUID, calculateCartTotal, deleteAllCartItems, addMultipleProductsToCart } from '../../utils/index.js';
+import { until, By } from 'selenium-webdriver';
 import 'dotenv/config';
 import { strict as assert } from 'assert';
 
@@ -36,6 +37,9 @@ describe('Cart Total Verification E2E Tests', function() {
     // Navigate to cart page to verify the products
     const baseUrl = process.env.DEMO_BLAZE_BASE_URL;
     await driver.get(`${baseUrl}/cart.html`);
+    
+    // Wait for one of our products to appear in cart (using delete button with UUID)
+    await driver.wait(until.elementLocated(By.xpath(`//a[contains(@onclick, '${addResults[0].uuid}')]`)), 10000);
     
     // Calculate cart total using utility function
     const cartResult = await calculateCartTotal(driver);
