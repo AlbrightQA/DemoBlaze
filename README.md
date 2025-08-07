@@ -68,77 +68,18 @@ npm run smoke   # Cleans previously compiled scripts, recompiles, and runs tests
 npm run e2e -- --grep "test name" # Not file name. It will match partial text of your 'describe' or 'it' statements
 ```
 
-## Project Structure
+### Browser Visibility
+Tests run headless by default for faster execution. To see the browser:
 
-```
-├── config/
-│   └── test.config.ts   # Test configuration and browser settings
-├── tests/
-│   ├── smoke/           # API-only tests
-│   │   └── add-to-cart-and-delete-smoke.test.ts
-│   └── e2e/            # Browser automation tests
-│       ├── verify-cart-total.test.ts
-│       └── add-to-cart-and-delete-e2e.test.ts
-├── utils/
-│   ├── apiClient.ts     # API client for DemoBlaze
-│   ├── cartCalculator.ts # Cart total calculation utilities
-│   ├── cartCleanup.ts   # Bulk delete operations
-│   ├── cartOperations.ts # Bulk add operations
-│   ├── uuidGenerator.ts # UUID generation utilities
-│   └── index.ts         # Barrel exports
-├── pages/               # Page Object Model classes
-└── dist/                # Compiled JavaScript (generated)
+**Windows (PowerShell):**
+```powershell
+$env:HEADED="true"; npm run e2e
 ```
 
-## Test Types
-
-### Smoke Tests (`tests/smoke/`)
-- **Purpose**: Quick API validation
-- **Scope**: API calls only, no browser automation
-- **Use Case**: Fast feedback on API functionality
-- **Command**: `npm run smoke`
-
-### E2E Tests (`tests/e2e/`)
-- **Purpose**: Full user journey validation
-- **Scope**: Browser automation with API setup
-- **Use Case**: Complete feature verification
-- **Command**: `npm run e2e`
-
-## Key Utilities
-
-### API Client (`utils/apiClient.ts`)
-```typescript
-const apiClient = new ApiClient();
-await apiClient.addProductToCart(productId, uuid);
-await apiClient.deleteCartItem(uuid);
+**Unix/Linux/macOS:**
+```sh
+HEADED=true npm run e2e
 ```
-
-### Bulk Operations (`utils/cartOperations.ts`, `utils/cartCleanup.ts`)
-```typescript
-// Add multiple products
-const addResults = await addMultipleProductsToCart(apiClient, [3, 15, 14]);
-
-// Delete multiple items
-const deleteResults = await deleteAllCartItems(apiClient, uuids);
-```
-
-### Cart Calculator (`utils/cartCalculator.ts`)
-```typescript
-const cartResult = await calculateCartTotal(driver);
-// Returns: { calculatedTotal, displayedTotal, productPrices, isMatch }
-```
-
-### UUID Generator (`utils/uuidGenerator.ts`)
-```typescript
-const uuid = generateUUID(); // Generates RFC 4122 v4 UUID
-```
-
-## Example Test Flow
-
-1. **Setup**: Initialize API client and generate UUIDs
-2. **Add Products**: Bulk add products to cart via API
-3. **Verify**: Navigate to cart page and verify total calculation
-4. **Cleanup**: Bulk delete all items from cart
 
 ## Notes
 
@@ -160,12 +101,6 @@ const uuid = generateUUID(); // Generates RFC 4122 v4 UUID
 Add `--inspect` flag for detailed logging:
 ```sh
 npm run e2e -- --inspect
-```
-
-### Browser Visibility
-Tests run headless by default for faster execution. To see the browser:
-```sh
-HEADED=true npm run e2e
 ```
 
 ## CI/CD Workflows

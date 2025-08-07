@@ -28,11 +28,6 @@ before(async function () {
   chromeOptions.addArguments(`--user-data-dir=${testConfig.browser.userDataDir}`);
   chromeOptions.addArguments(`--remote-debugging-port=${testConfig.browser.remoteDebuggingPort}`);
   
-  // Add headless mode if configured
-  if (testConfig.browser.headless) {
-    chromeOptions.addArguments('--headless');
-  }
-  
   const driver = await new Builder()
     .forBrowser('chrome')
     .setChromeOptions(chromeOptions)

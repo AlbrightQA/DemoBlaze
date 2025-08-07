@@ -10,10 +10,6 @@
     elementWait: number;
     pageLoad: number;
   };
-  retries: {
-    maxAttempts: number;
-    delayBetweenAttempts: number;
-  };
 }
 
 // Default configuration
@@ -32,24 +28,12 @@ const defaultConfig: TestConfig = {
     default: 10000,
     elementWait: 5000,
     pageLoad: 30000
-  },
-  retries: {
-    maxAttempts: 3,
-    delayBetweenAttempts: 1000
   }
 };
 
 // Environment-specific overrides
 const getEnvironmentOverrides = (): Partial<TestConfig> => {
   const overrides: Partial<TestConfig> = {};
-  
-  // CI environment overrides
-  if (process.env.CI === 'true') {
-    overrides.browser = {
-      ...defaultConfig.browser,
-      headless: true
-    };
-  }
   
   // Custom headed setting (for debugging)
   if (process.env.HEADED === 'true') {
@@ -70,10 +54,25 @@ const getEnvironmentOverrides = (): Partial<TestConfig> => {
   return overrides;
 };
 
+// Get Chrome options based on headless setting
+const getChromeOptions = (headless: boolean): string[] => {
+  const baseOptions = ['--no-sandbox', '--disable-dev-shm-usage', '--disable-gpu'];
+  return headless ? [...baseOptions, '--headless'] : baseOptions;
+};
+
 // Merge default config with environment overrides
-export const testConfig: TestConfig = {
+const mergedConfig = {
   ...defaultConfig,
   ...getEnvironmentOverrides()
+};
+
+// Set Chrome options based on headless setting
+export const testConfig: TestConfig = {
+  ...mergedConfig,
+  browser: {
+    ...mergedConfig.browser,
+    chromeOptions: getChromeOptions(mergedConfig.browser.headless)
+  }
 };
 
 export default testConfig;

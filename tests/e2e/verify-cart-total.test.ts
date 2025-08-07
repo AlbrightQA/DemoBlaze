@@ -14,7 +14,7 @@ describe('Cart Total Verification E2E Tests', function() {
 
   it('Should add all products to cart via API and verify cart total in Front End', async function() {
     this.timeout(30000);
-    
+
     // Get browser session for API calls
     let sessionInfo;
     try {
