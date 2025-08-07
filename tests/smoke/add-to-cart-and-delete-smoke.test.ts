@@ -1,5 +1,6 @@
 import { ApiClient, generateUUID } from '../../utils/index.js';
 import 'dotenv/config';
+import { strict as assert } from 'assert';
 
 describe('API Client Tests', function() {
   let apiClient: ApiClient;
@@ -20,56 +21,24 @@ describe('API Client Tests', function() {
   it('Should add product to cart via API', async function() {
     this.timeout(10000);
     
-    try {
-      const result = await apiClient.addProductToCart(productId, testUuid);
-      console.log('Added to cart:', result);
-      
-      // Check for error message in response
-      if (result.errorMessage) {
-        throw new Error(`API returned error: ${result.errorMessage}`);
-      }
-      
-      // Verify the response indicates success
-      if (result.success !== undefined) {
-        console.log('Success status:', result.success);
-      }
-      if (result.message) {
-        console.log('Response message:', result.message);
-      }
-      
-      console.log('✅ Add to cart smoke test passed: API call completed successfully');
-      
-    } catch (error) {
-      console.error('❌ Add to cart smoke test failed: API call failed:', error);
-      throw error;
-    }
+    const result = await apiClient.addProductToCart(productId, testUuid);
+    console.log('Added to cart:', result);
+    
+    // Verify no error message in response
+    assert.strictEqual(result.errorMessage, undefined, `API returned error: ${result.errorMessage}`);
+    
+    console.log('✅ Add to cart smoke test passed: API call completed successfully');
   });
 
   it('Should delete product from cart via API', async function() {
     this.timeout(10000);
     
-    try {
-      const result = await apiClient.deleteCartItem(testUuid);
-      console.log('Deleted from cart:', result);
-      
-      // Check for error message in response
-      if (result.errorMessage) {
-        throw new Error(`API returned error: ${result.errorMessage}`);
-      }
-      
-      // Verify the response indicates success
-      if (result.success !== undefined) {
-        console.log('Success status:', result.success);
-      }
-      if (result.message) {
-        console.log('Response message:', result.message);
-      }
-      
-      console.log('✅ Delete from cart smoke test passed: API call completed successfully');
-      
-    } catch (error) {
-      console.error('❌ Delete from cart smoke test failed: API call failed:', error);
-      throw error;
-    }
+    const result = await apiClient.deleteCartItem(testUuid);
+    console.log('Deleted from cart:', result);
+    
+    // Verify no error message in response
+    assert.strictEqual(result.errorMessage, undefined, `API returned error: ${result.errorMessage}`);
+    
+    console.log('✅ Delete from cart smoke test passed: API call completed successfully');
   });
 });

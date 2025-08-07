@@ -56,7 +56,7 @@ To get your `DEMO_BLAZE_USER_COOKIE` value:
 ### Setting Up Local `.env`
 This will 
 ```sh
-npm run dev      # Setup .env
+npm run dev     # Setup .env
 ```
 
 ## Running Tests

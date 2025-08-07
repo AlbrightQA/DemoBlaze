@@ -2,6 +2,7 @@ import { StorefrontPage } from '@/pages/StorefrontPage.js';
 import { ProductPage } from '@/pages/ProductPage.js';
 import { CartPage } from '@/pages/CartPage.js';
 import { WebDriver, until, By } from 'selenium-webdriver';
+import { strict as assert } from 'assert';
 
 declare const driver: WebDriver;
 
@@ -30,7 +31,7 @@ describe('Storefront E2E: Add Monitor to Cart', function () {
     
     await new ProductPage(driver).addToCart();
 
-    // Navigate to cart and verify
+    // Navigate to cart
     await driver.get(`${process.env.DEMO_BLAZE_BASE_URL}/cart.html`);
     
     // Wait for the specific product to appear in cart
@@ -39,9 +40,7 @@ describe('Storefront E2E: Add Monitor to Cart', function () {
     // Verify product is in cart
     const productElement = await driver.findElement(By.xpath(`//td[contains(text(), '${productName}')]`));
     const productText = await productElement.getText();
-    if (!productText.includes(productName)) {
-      throw new Error(`Expected to find "${productName}" in cart`);
-    }
+    assert.strictEqual(productText.includes(productName), true, `Expected to find "${productName}" in cart`);
 
     // Delete product from cart
     await cartPage.deleteCartItem(productName);
@@ -51,7 +50,7 @@ describe('Storefront E2E: Add Monitor to Cart', function () {
     // Verify product is removed
     try {
       await driver.findElement(By.xpath(`//td[contains(text(), '${productName}')]`));
-      throw new Error(`Product "${productName}" still exists in cart after deletion`);
+      assert.fail(`Product "${productName}" still exists in cart after deletion`);
     } catch (error: any) {
       if (error.name !== 'NoSuchElementError') {
         throw error;
