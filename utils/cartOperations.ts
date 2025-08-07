@@ -16,7 +16,7 @@ export async function addMultipleProductsToCart(apiClient: ApiClient, productIds
     try {
       const uuid = generateUUID();
       const addResult = await apiClient.addProductToCart(productId, uuid);
-      console.log(`🛒 Added product ${productId} with UUID ${uuid}:`, addResult);
+      console.log(`Added product ${productId} with UUID ${uuid}:`, addResult);
       
       if (addResult.errorMessage) {
         console.log(`Warning: Add returned error for product ${productId}:`, addResult.errorMessage);

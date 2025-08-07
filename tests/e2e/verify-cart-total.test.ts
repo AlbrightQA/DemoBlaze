@@ -32,14 +32,22 @@ describe('Cart Total Verification E2E Tests', function() {
     
     const addResults = await addMultipleProductsToCart(apiClient, productIds);
     
-    console.log('✅ All products added to cart successfully!');
+    // Check if any products were successfully added
+    const successfulResults = addResults.filter(result => result.success);
+    if (successfulResults.length === 0) {
+      throw new Error('No products were successfully added to cart. Check API connectivity and credentials.');
+    }
+    
+    console.log(`✅ ${successfulResults.length} products added to cart successfully!`);
     
     // Navigate to cart page to verify the products
     const baseUrl = process.env.DEMO_BLAZE_BASE_URL;
     await driver.get(`${baseUrl}/cart.html`);
     
-    // Wait for one of our products to appear in cart (using delete button with UUID)
-    await driver.wait(until.elementLocated(By.xpath(`//a[contains(@onclick, '${addResults[0].uuid}')]`)), 10000);
+    // Wait for one of our successfully added products to appear in cart (using delete button with UUID)
+    const firstSuccessfulUuid = successfulResults[0].uuid;
+    console.log(`Waiting for product with UUID: ${firstSuccessfulUuid}`);
+    await driver.wait(until.elementLocated(By.xpath(`//a[contains(@onclick, '${firstSuccessfulUuid}')]`)), 10000);
     
     // Calculate cart total using utility function
     const cartResult = await calculateCartTotal(driver);
@@ -49,10 +57,10 @@ describe('Cart Total Verification E2E Tests', function() {
     
     console.log('✅ Cart total verification passed!');
     
-    // Cleanup: Delete all items from cart
-    const uuidsToDelete = addResults.map(result => result.uuid);
+    // Cleanup: Delete only successfully added items from cart
+    const uuidsToDelete = successfulResults.map(result => result.uuid);
     await deleteAllCartItems(apiClient, uuidsToDelete);
     
-    console.log(`✅ All items successfully deleted during cleanup`);
+    console.log(`✅ ${uuidsToDelete.length} items successfully deleted during cleanup`);
   });
 });
