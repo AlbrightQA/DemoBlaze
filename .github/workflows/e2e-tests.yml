@@ -10,6 +10,7 @@ on:
 jobs:
   e2e-tests:
     runs-on: ubuntu-latest
+    environment: Demo Blaze
     
     steps:
     - name: Checkout code

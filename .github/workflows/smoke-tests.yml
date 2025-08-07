@@ -10,6 +10,7 @@ on:
 jobs:
   smoke-tests:
     runs-on: ubuntu-latest
+    environment: Demo Blaze
     
     steps:
     - name: Checkout code
