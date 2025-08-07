@@ -7,7 +7,7 @@ import { before, after } from 'mocha';
 import 'dotenv/config';
 
 before(async function () {
-  this.timeout(30000);
+  this.timeout(60000); // Increased timeout for CI environment
   
   const baseUrl = process.env.DEMO_BLAZE_BASE_URL;
   const username = process.env.DEMO_BLAZE_USER_NAME;
@@ -52,7 +52,7 @@ before(async function () {
 });
 
 after(async function () {
-  this.timeout(10000);
+  this.timeout(20000); // Increased timeout for cleanup
   if ((global as any).driver) {
     await (global as any).driver.quit();
   }
