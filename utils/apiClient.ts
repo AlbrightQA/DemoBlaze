@@ -49,10 +49,9 @@ export class ApiClient {
       flag: true
     };
 
-    try {
-               console.log('Making API call to:', url);
-         console.log('Request body:', JSON.stringify(requestBody, null, 2));
-         console.log('🔍 API Debug: Using cookie value:', customCookie || this.cookie);
+          try {
+        console.log('Making API call to:', url);
+        console.log('Request body:', JSON.stringify(requestBody, null, 2));
       
       const response = await fetch(url, {
         method: 'POST',

@@ -40,14 +40,6 @@ export async function globalSetup(): Promise<{ driver: WebDriver, loginPage: Log
   
   // Wait a moment for the login API call to complete
   await new Promise(resolve => setTimeout(resolve, 2000));
-  
-  // Debug: Check session after login
-  console.log('=== AFTER LOGIN ===');
-  const afterLoginCookies = await driver.manage().getCookies();
-  console.log(`Cookies after login: ${afterLoginCookies.length}`);
-  afterLoginCookies.forEach((cookie: any) => {
-    console.log(`  - ${cookie.name}: ${cookie.value}`);
-  });
 
   return { driver, loginPage };
 }
