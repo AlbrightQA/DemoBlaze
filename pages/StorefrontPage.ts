@@ -1,4 +1,4 @@
-﻿import { By, WebDriver, Locator, WebElement } from 'selenium-webdriver';
+﻿import { By, WebDriver, Locator, WebElement, until } from 'selenium-webdriver';
 
 export class StorefrontPage {
   private driver: WebDriver;
@@ -56,6 +56,33 @@ export class StorefrontPage {
 
   public async clickItemByPartialText(partialText: string): Promise<void> {
     const itemLink = By.xpath(`//a[@class='hrefch' and contains(text(), '${partialText}')]`);
-    await this.driver.findElement(itemLink).click();
+    
+    try {
+      // Wait for element to be present
+      await this.driver.wait(until.elementLocated(itemLink), 10000);
+      
+      // Get fresh element reference
+      const element = await this.driver.findElement(itemLink);
+      
+      // Wait for element to be visible and clickable
+      await this.driver.wait(until.elementIsVisible(element), 5000);
+      await this.driver.wait(until.elementIsEnabled(element), 5000);
+      
+      // Click the element
+      await element.click();
+      
+    } catch (error) {
+      console.log(`Failed to click ${partialText}: ${error}`);
+      
+      // Retry with fresh element reference
+      try {
+        const freshElement = await this.driver.findElement(itemLink);
+        await freshElement.click();
+        console.log(`Successfully clicked ${partialText} on retry`);
+      } catch (retryError) {
+        console.log(`Failed to click ${partialText} on retry: ${retryError}`);
+        throw retryError;
+      }
+    }
   }
 }

@@ -12,7 +12,7 @@ interface Product {
 
 declare const driver: WebDriver;
 
-describe('Storefront E2E: Add Monitor to Cart', function () {
+describe('Storefront E2E: Add 3 products to cart and delete them', function () {
   let storefront: StorefrontPage;
   let cartPage: CartPage;
 
