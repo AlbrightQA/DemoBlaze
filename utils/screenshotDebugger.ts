@@ -1,4 +1,4 @@
-import { WebDriver } from 'selenium-webdriver';
+import { WebDriver, By } from 'selenium-webdriver';
 import fs from 'fs';
 import path from 'path';
 
@@ -44,7 +44,7 @@ export async function debugElementState(driver: WebDriver, selector: string, des
   console.log(`Debugging element: ${description} (${selector})`);
   
   try {
-    const elements = await driver.findElements(driver.By.css(selector));
+    const elements = await driver.findElements(By.css(selector));
     console.log(`Found ${elements.length} elements matching "${selector}"`);
     
     if (elements.length > 0) {
