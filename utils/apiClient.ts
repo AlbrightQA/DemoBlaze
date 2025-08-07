@@ -34,32 +34,37 @@ export class ApiClient {
     if (!process.env.DEMO_BLAZE_USER_COOKIE) {
       throw new Error('DEMO_BLAZE_USER_COOKIE environment variable is required');
     }
-    
+
     this.baseUrl = process.env.DEMO_BLAZE_API_BASE_URL;
     this.cookie = process.env.DEMO_BLAZE_USER_COOKIE;
   }
 
-  async addProductToCart(productId: number, uuid: string, customCookie?: string): Promise<AddToCartResponse> {
+  async addProductToCart(
+    productId: number,
+    uuid: string,
+    customCookie?: string,
+  ): Promise<AddToCartResponse> {
     const url = `${this.baseUrl}/addtocart`;
-    
+
     const requestBody: AddToCartRequest = {
       id: uuid,
       cookie: customCookie || this.cookie,
       prod_id: productId,
-      flag: true
+      flag: true,
     };
 
     try {
       const response = await fetch(url, {
         method: 'POST',
         headers: {
-          'accept': '*/*',
+          accept: '*/*',
           'content-type': 'application/json',
-          'origin': this.baseUrl,
-          'referer': `${this.baseUrl}/`,
-          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36'
+          origin: this.baseUrl,
+          referer: `${this.baseUrl}/`,
+          'user-agent':
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36',
         },
-        body: JSON.stringify(requestBody)
+        body: JSON.stringify(requestBody),
       });
 
       if (!response.ok) {
@@ -82,22 +87,23 @@ export class ApiClient {
 
   async deleteCartItem(uuid: string): Promise<DeleteCartItemResponse> {
     const url = `${this.baseUrl}/deleteitem`;
-    
+
     const requestBody: DeleteCartItemRequest = {
-      id: uuid
+      id: uuid,
     };
 
     try {
       const response = await fetch(url, {
         method: 'POST',
         headers: {
-          'accept': '*/*',
+          accept: '*/*',
           'content-type': 'application/json',
-          'origin': this.baseUrl,
-          'referer': `${this.baseUrl}/`,
-          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36'
+          origin: this.baseUrl,
+          referer: `${this.baseUrl}/`,
+          'user-agent':
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36',
         },
-        body: JSON.stringify(requestBody)
+        body: JSON.stringify(requestBody),
       });
 
       if (!response.ok) {

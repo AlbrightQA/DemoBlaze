@@ -29,7 +29,7 @@ export class LoginPage {
     await this.driver.wait(until.elementIsEnabled(usernameElement));
     await usernameElement.clear();
     await usernameElement.click();
-    await new Promise(resolve => setTimeout(resolve, 500)); // Small delay
+    await new Promise((resolve) => setTimeout(resolve, 500)); // Small delay
     await usernameElement.sendKeys(username);
   }
 
@@ -39,7 +39,7 @@ export class LoginPage {
     await this.driver.wait(until.elementIsEnabled(passwordElement));
     await passwordElement.clear();
     await passwordElement.click();
-    await new Promise(resolve => setTimeout(resolve, 500)); // Small delay
+    await new Promise((resolve) => setTimeout(resolve, 500)); // Small delay
     await passwordElement.sendKeys(password);
   }
 

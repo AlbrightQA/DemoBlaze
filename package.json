@@ -13,7 +13,9 @@
     "build": "tsc && tsc-alias",
     "e2e": "npm run clean && npm run build && mocha --retries 2 --file ./dist/tests/globalSetup.js dist/tests/**/e2e/**/*.js",
     "smoke": "npm run clean && npm run build && mocha --retries 2 --file ./dist/tests/globalSetup.js dist/tests/smoke/**/*.js",
-    "all-tests": "npm run smoke && npm run e2e"
+    "all-tests": "npm run smoke && npm run e2e",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "repository": {
     "type": "git",
@@ -30,6 +32,7 @@
     "@types/mocha": "^10.0.10",
     "@types/node": "^24.2.0",
     "mocha": "^11.7.1",
+    "prettier": "^3.6.2",
     "rimraf": "^6.0.1",
     "ts-node": "^10.9.2",
     "tsc-alias": "^1.8.16",

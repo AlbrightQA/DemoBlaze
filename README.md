@@ -30,56 +30,91 @@ When hired, I plan to focus on the following key areas to enhance the quality as
 ## Getting Started
 
 1. **Clone and install:**
+
    ```sh
-   git clone https://github.com/AlbrightQA/ly-application.git
+   git clone https://github.com/AlbrightQA/line-yahoo-application.git
    cd ly-application
    npm install
    ```
 
 2. **Setup environment:**
+
    ```sh
    npm run dev
    ```
+
    This creates `.env` with default values from `.env.example`.
 
 3. **Add your credentials:**
-   Edit `.env` with your DemoBlaze credentials. Leave DEMO_BLAZE_USER_COOKIE blank.
-
+   Edit `.env` with your DemoBlaze username and password.
 
 ## Running Tests
 
 ### All Tests
+
 ```sh
 npm run all-tests
 ```
 
 ### E2E Tests Only
+
 ```sh
 npm run e2e     # Cleans previously compiled scripts, recompiles, and runs tests
 ```
 
 ### API Smoke Tests Only
+
 ```sh
 npm run smoke   # Cleans previously compiled scripts, recompiles, and runs tests
 ```
 
 ### Specific Test File
+
 ```sh
-npm run e2e -- --grep "test name" # Not file name. It will match partial text of your 'describe' or 'it' statements
+npm run e2e -- --grep "test name" # Not file name. It will match partial text of your 'describe' or 'it' statements.
 ```
 
+## CI/CD Workflows
+
+### GitHub Actions
+
+The repository includes two separate GitHub workflows:
+
+#### E2E Tests Workflow (`.github/workflows/e2e-tests.yml`)
+
+- **Triggers**: Push to main/develop, pull requests, manual dispatch
+- **Purpose**: Full browser automation testing
+- **Environment**: Ubuntu with Chrome browser
+- **Artifacts**: Test results and screenshots (7-day retention)
+
+#### Smoke Tests Workflow (`.github/workflows/smoke-tests.yml`)
+
+- **Triggers**: Push to main/develop, pull requests, manual dispatch
+- **Purpose**: API-only testing (faster execution)
+- **Environment**: Ubuntu (no browser required)
+- **Artifacts**: Test results (7-day retention)
+
 ### Browser Visibility
+
 Tests run headless by default for faster execution. To see the browser:
 
 **Windows (PowerShell):**
+
 ```powershell
 $env:HEADED="true"; npm run e2e
 ```
 
 **Unix/Linux/macOS:**
+
 ```sh
 HEADED=true npm run e2e
 ```
+
+## Nice to have's
+
+- **Pretty**: `npm run format` will make your code pretty according to `.prettierrc.json`
+- **Retries**: Failures will retry 2 more times (for a total of 3 runs)
+- **Screenshots**: Auto-screenshots on failure will save locally to `/.screenshots` or artifacts during CI E2E
 
 ## Notes
 
@@ -93,32 +128,17 @@ HEADED=true npm run e2e
 ## Troubleshooting
 
 ### Common Issues
+
 1. **Environment Variables**: Ensure all required variables are set
 2. **Chrome Driver**: E2E tests require Chrome browser
 3. **Compilation**: Run `npm run build` if TypeScript compilation fails
 
 ### Debug Mode
+
 Add `--inspect` flag for detailed logging:
+
 ```sh
 npm run e2e -- --inspect
 ```
-
-## CI/CD Workflows
-
-### GitHub Actions
-
-The repository includes two separate GitHub workflows:
-
-#### E2E Tests Workflow (`.github/workflows/e2e-tests.yml`)
-- **Triggers**: Push to main/develop, pull requests, manual dispatch
-- **Purpose**: Full browser automation testing
-- **Environment**: Ubuntu with Chrome browser
-- **Artifacts**: Test results and screenshots (7-day retention)
-
-#### Smoke Tests Workflow (`.github/workflows/smoke-tests.yml`)
-- **Triggers**: Push to main/develop, pull requests, manual dispatch
-- **Purpose**: API-only testing (faster execution)
-- **Environment**: Ubuntu (no browser required)
-- **Artifacts**: Test results (7-day retention)
 
 ---

@@ -83,13 +83,13 @@ export class CartPage {
         console.log('Cart is now empty');
         break;
       }
-      
+
       // Delete the first item
       const deleteButton = await items[0].findElement(this.deleteButton);
       await deleteButton.click();
-      
+
       // Wait for the page to refresh
       await this.driver.sleep(2000);
     }
   }
-} 
+}
