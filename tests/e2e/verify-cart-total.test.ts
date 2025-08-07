@@ -16,7 +16,17 @@ describe('Cart Total Verification E2E Tests', function() {
     this.timeout(30000);
     
     // Get browser session for API calls
-    const sessionInfo = await getBrowserSession(driver);
+    let sessionInfo;
+    try {
+      sessionInfo = await getBrowserSession(driver);
+    } catch (error) {
+      console.log('Failed to get browser session, using environment variable');
+      // Fallback to environment variable if browser session is not available
+      sessionInfo = {
+        tokenCookie: process.env.DEMO_BLAZE_USER_COOKIE || '',
+        userCookie: process.env.DEMO_BLAZE_USER_COOKIE || ''
+      };
+    }
     
     const nexus6ProductId = process.env.NEXUS_6_PRODUCT_ID;
     const macbookProductId = process.env.MACBOOK_PRO_PRODUCT_ID;
