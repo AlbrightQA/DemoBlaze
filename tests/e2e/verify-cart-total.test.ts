@@ -15,6 +15,14 @@ describe('Cart Total Verification E2E Tests', function() {
   it('Should add all products to cart via API for manual verification', async function() {
     this.timeout(30000);
     
+    // Debug: Check session state at start
+    console.log('=== SESSION DEBUG START ===');
+    const startCookies = await driver.manage().getCookies();
+    console.log(`Initial cookies: ${startCookies.length}`);
+    startCookies.forEach((cookie: any) => {
+      console.log(`  - ${cookie.name}: ${cookie.value}`);
+    });
+    
     const nexus6ProductId = process.env.NEXUS_6_PRODUCT_ID;
     const macbookProductId = process.env.MACBOOK_PRO_PRODUCT_ID;
     const asusProductId = process.env.ASUS_FULL_HD_PRODUCT_ID;
@@ -30,13 +38,37 @@ describe('Cart Total Verification E2E Tests', function() {
       parseInt(asusProductId)
     ];
     
+    // Debug: Check session before API calls
+    console.log('=== BEFORE API CALLS ===');
+    const beforeApiCookies = await driver.manage().getCookies();
+    console.log(`Cookies before API calls: ${beforeApiCookies.length}`);
+    beforeApiCookies.forEach((cookie: any) => {
+      console.log(`  - ${cookie.name}: ${cookie.value}`);
+    });
+    
     const addResults = await addMultipleProductsToCart(apiClient, productIds);
     
     console.log('✅ All products added to cart successfully!');
     
+    // Debug: Check session after API calls
+    console.log('=== AFTER API CALLS ===');
+    const afterApiCookies = await driver.manage().getCookies();
+    console.log(`Cookies after API calls: ${afterApiCookies.length}`);
+    afterApiCookies.forEach((cookie: any) => {
+      console.log(`  - ${cookie.name}: ${cookie.value}`);
+    });
+    
     // Navigate to cart page to verify the products
     const baseUrl = process.env.DEMO_BLAZE_BASE_URL;
     await driver.get(`${baseUrl}/cart.html`);
+    
+    // Debug: Check session after navigation
+    console.log('=== AFTER NAVIGATION ===');
+    const afterNavCookies = await driver.manage().getCookies();
+    console.log(`Cookies after navigation: ${afterNavCookies.length}`);
+    afterNavCookies.forEach((cookie: any) => {
+      console.log(`  - ${cookie.name}: ${cookie.value}`);
+    });
     
     // Wait for cart items to actually appear in the table
     console.log('Waiting for cart items to load...');
