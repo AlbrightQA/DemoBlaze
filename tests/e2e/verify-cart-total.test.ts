@@ -66,6 +66,9 @@ describe('Cart Total Verification E2E Tests', function () {
     const baseUrl = process.env.DEMO_BLAZE_BASE_URL;
     await driver.get(`${baseUrl}/cart.html`);
 
+    // Wait for cart page to load completely
+    await driver.wait(until.elementLocated(By.css('#tbodyid')), 5000);
+
     // Wait for cart items to actually appear in the table
     console.log('Waiting for cart items to load...');
     try {
