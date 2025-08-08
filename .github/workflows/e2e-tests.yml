@@ -46,7 +46,6 @@ jobs:
           name: e2e-test-results
           path: |
             dist/
-            screenshots/
           retention-days: 7
 
       - name: Upload screenshots
@@ -54,5 +53,5 @@ jobs:
         if: always()
         with:
           name: e2e-screenshots
-          path: screenshots/
+          path: .screenshots/
           retention-days: 7
