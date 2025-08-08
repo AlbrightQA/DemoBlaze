@@ -7,7 +7,7 @@
   debugPageState,
   debugElementState,
   getBrowserSession,
-} from '../../utils/index.js';
+} from '@/utils/index.js';
 import { until, By } from 'selenium-webdriver';
 import 'dotenv/config';
 import { strict as assert } from 'assert';
@@ -65,9 +65,6 @@ describe('Cart Total Verification E2E Tests', function () {
     // Navigate to cart page to verify the products
     const baseUrl = process.env.DEMO_BLAZE_BASE_URL;
     await driver.get(`${baseUrl}/cart.html`);
-
-    // Wait for cart page to load completely
-    await driver.wait(until.elementLocated(By.css('#tbodyid')), 5000);
 
     // Wait for cart items to actually appear in the table
     console.log('Waiting for cart items to load...');

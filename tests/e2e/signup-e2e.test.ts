@@ -1,8 +1,7 @@
 import { NavigationBar } from '@/pages/NavigationBar.js';
-import { WebDriver, until, By, Builder } from 'selenium-webdriver';
-import { Options } from 'selenium-webdriver/chrome.js';
+import { WebDriver, until, By } from 'selenium-webdriver';
 import { strict as assert } from 'assert';
-import testConfig from '../../config/test.config.js';
+import { getIsolatedDriver } from './shared-isolated-session.js';
 
 describe('Authentication E2E: Sign Up Flow', function () {
   let driver: WebDriver;
@@ -10,26 +9,8 @@ describe('Authentication E2E: Sign Up Flow', function () {
 
   before(async function () {
     this.timeout(60000);
-
-    // Create a fresh driver instance without global setup
-    const chromeOptions = new Options();
-    testConfig.browser.chromeOptions.forEach((option) => {
-      chromeOptions.addArguments(option);
-    });
-    chromeOptions.addArguments(`--user-data-dir=${testConfig.browser.userDataDir}-signup`);
-    chromeOptions.addArguments(
-      `--remote-debugging-port=${testConfig.browser.remoteDebuggingPort + 1}`,
-    );
-
-    driver = await new Builder().forBrowser('chrome').setChromeOptions(chromeOptions).build();
+    driver = await getIsolatedDriver();
     navigationBar = new NavigationBar(driver);
-  });
-
-  after(async function () {
-    this.timeout(20000);
-    if (driver) {
-      await driver.quit();
-    }
   });
 
   it('Should sign up successfully with unique credentials', async function () {

@@ -1,22 +1,45 @@
 import { NavigationBar } from '@/pages/NavigationBar.js';
+import { LoginPage } from '@/pages/LoginPage.js';
 import { WebDriver, until, By } from 'selenium-webdriver';
 import { strict as assert } from 'assert';
-
-declare const driver: WebDriver;
+import { getIsolatedDriver } from './shared-isolated-session.js';
 
 describe('Authentication E2E: Login and Logout Flow', function () {
+  let driver: WebDriver;
   let navigationBar: NavigationBar;
+  let loginPage: LoginPage;
 
-  before(function () {
+  before(async function () {
+    this.timeout(60000);
+    driver = await getIsolatedDriver();
     navigationBar = new NavigationBar(driver);
+    loginPage = new LoginPage(driver);
   });
 
   it('Should logout successfully and show login button', async function () {
     this.timeout(30000);
 
-    // Note: Global setup already logs in the user, so we start in logged-in state
+    const baseUrl = process.env.DEMO_BLAZE_BASE_URL;
+    const username = process.env.DEMO_BLAZE_USER_NAME;
+    const password = process.env.DEMO_BLAZE_PASSWORD;
 
-    // Verify we're in logged-in state by checking logout button is visible
+    if (!baseUrl || !username || !password) {
+      throw new Error('Missing required environment variables for login');
+    }
+
+    // Navigate to the application
+    await driver.get(`${baseUrl}/index.html`);
+
+    // Wait for page to load completely
+    await driver.wait(until.elementLocated(By.css('a#login2.nav-link')), 5000);
+
+    // Use LoginPage to perform login
+    await loginPage.login(username, password);
+
+    // Wait a moment for the login API call to complete
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    // Wait for login to complete and verify we're logged in
     await driver.wait(until.elementLocated(By.css('a#logout2.nav-link')), 5000);
 
     // Click the logout button

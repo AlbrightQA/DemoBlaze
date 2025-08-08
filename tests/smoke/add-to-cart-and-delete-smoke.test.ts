@@ -1,4 +1,4 @@
-﻿import { ApiClient, generateUUID } from '../../utils/index.js';
+﻿import { ApiClient, generateUUID } from '@/utils/index.js';
 import 'dotenv/config';
 import { strict as assert } from 'assert';
 
